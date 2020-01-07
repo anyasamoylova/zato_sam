@@ -1,12 +1,9 @@
 package ru.sam.zato_sam.controller;
 
-import jdk.nashorn.internal.runtime.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +13,6 @@ import ru.sam.zato_sam.domain.Tracker;
 import ru.sam.zato_sam.domain.User;
 import ru.sam.zato_sam.service.TrackerService;
 
-import javax.jws.WebParam;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +44,10 @@ public class TrackerController {
             @PathVariable User user,
             Model model) throws IOException {
 
-        trackerService.addTracker(trackerName,currentUser,file,str, description);
-        model.addAttribute("trackers", trackerService.getTrackersByUser(currentUser));
+        if (user.equals(currentUser)) {
+            trackerService.addTracker(trackerName,currentUser,file,str, description);
+        }
+        model.addAttribute("trackers", currentUser.getTrackers());
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userTrackers";
     }
@@ -62,34 +59,12 @@ public class TrackerController {
             Model model) {
         List<Tracker> trackers = null;
         if(currentUser.equals(user)){
-            trackers = user.getTrackers();
+            trackers = trackerService.getTrackersByUser(currentUser);
         } else
             trackers = trackerService.getTrackersByUserPublic(user);
         model.addAttribute("trackers", trackers);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userTrackers";
-    }
-
-//    @GetMapping("/user-trackers")
-//    public String currentUserTrackers(
-//            @AuthenticationPrincipal User user,
-//            Model model
-//    ){
-//        model.addAttribute("trackers", user.getTrackers());
-//        model.addAttribute("isCurrentUser", true);
-//        return "userTrackers";
-//    }
-
-    @GetMapping("/like/{tracker}")
-    public String likeTracker(
-            @AuthenticationPrincipal User user,
-            @PathVariable Tracker tracker,
-            Model model){
-        trackerService.likeTracker(user, tracker);
-        if(user.getLikedTrackers().contains(tracker)) {
-            model.addAttribute("hasLike","true");
-        }
-            return "redirect:/main";
     }
 
     @GetMapping("tracker/{tracker}")

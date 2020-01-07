@@ -29,13 +29,6 @@ public class User implements UserDetails {
     private boolean active;
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Tracker> trackers;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "trackers_likes",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "tracker_id")}
-    )
-    private Set<Tracker> likedTrackers = new HashSet<>();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -158,11 +151,4 @@ public class User implements UserDetails {
         return Objects.hash(id);
     }
 
-    public Set<Tracker> getLikedTrackers() {
-        return likedTrackers;
-    }
-
-    public void setLikedTrackers(Set<Tracker> likedTrackers) {
-        this.likedTrackers = likedTrackers;
-    }
 }

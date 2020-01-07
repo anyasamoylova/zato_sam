@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.sam.zato_sam.domain.Role;
+import ru.sam.zato_sam.domain.Tracker;
 import ru.sam.zato_sam.domain.User;
 import ru.sam.zato_sam.repos.UserRepo;
 
@@ -21,6 +22,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TrackerService trackerService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,6 +79,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(User user) {
+        List<Tracker> trackers = user.getTrackers();
+        for (Tracker i: trackers){
+            trackerService.deleteTracker(i);
+        }
         userRepo.delete(user);
     }
 }

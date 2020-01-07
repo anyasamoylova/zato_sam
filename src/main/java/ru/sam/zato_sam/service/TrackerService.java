@@ -37,10 +37,14 @@ public class TrackerService {
 
     public void addTracker(String trackerName, User user, MultipartFile file, String str, String description) throws IOException {
         boolean isPublic;
-        if (str.equals("on")) {
-            isPublic = true;
-        } else
+        if (str == null){
             isPublic = false;
+        } else {
+            if (str.equals("on")) {
+                isPublic = true;
+            } else
+                isPublic = false;
+        }
 
         if (file != null && !file.getOriginalFilename().isEmpty()) { //загружаем контент
             File uploadDir = new File(uploadPath);
@@ -62,26 +66,13 @@ public class TrackerService {
 
     public List<Tracker> getTrackersByUserPublic(User user){return trackerRepo.findByAuthorAndIsPublic(user, true);}
 
-    public List<Tracker> getAllTrackers(){
-        return (List<Tracker>) trackerRepo.findAll();
-    }
-
-    public void likeTracker(User user, Tracker tracker) {
-        Set<Tracker> likedTrackers = user.getLikedTrackers();
-        if(likedTrackers.contains(tracker)) {
-            likedTrackers.remove(tracker);
-        } else
-            likedTrackers.add(tracker);
-        user.setLikedTrackers(likedTrackers);
-    }
-
     public void deleteTracker(Tracker tracker){
         File oldFile = new File (uploadPath + "/" + tracker.getFilename());
         oldFile.delete();
         trackerRepo.delete(tracker);
     }
 
-    public Object getTrackersByUser(User currentUser) {
+    public List<Tracker> getTrackersByUser(User currentUser) {
         return trackerRepo.findByAuthor(currentUser);
     }
 

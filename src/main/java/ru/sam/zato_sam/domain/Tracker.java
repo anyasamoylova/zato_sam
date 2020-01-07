@@ -6,12 +6,13 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Tracker {
+public class Tracker implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,13 +23,6 @@ public class Tracker {
     @NotNull
     @Column(name = "is_public")
     private boolean isPublic;
-    @ManyToMany
-    @JoinTable(
-            name = "trackers_likes",
-            joinColumns = {@JoinColumn(name = "tracker_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<User> likes = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER) // получая сообщение, сразу же хочу получать информацию об авторе
     @JoinColumn(name = "user_id")
@@ -89,21 +83,6 @@ public class Tracker {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
-    }
-
-    public Set<User> getLikes() {
-        return likes;
-    }
-
-    public boolean hasLike (User user){
-        if (likes.contains(user)){
-            return true;
-        }
-        return false;
-    }
-
-    public void setLikes(Set<User> likes) {
-        this.likes = likes;
     }
 
     public String getDescription() {
