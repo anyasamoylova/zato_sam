@@ -3,18 +3,12 @@
 </a>
 <div class="collapse <#if tracker??>show</#if>" id="collapseExample">
     <div class ="form-group mt-3">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" action="/user-trackers/${user.id}">
             <div class="form-group">
-                <input type="text" name="trackerName" class="form-control ${(trackerNameError??)?string('is-invalid','')}"
-                       value="<#if tracker??>${tracker.trackerName}</#if>"  placeholder="Введите название" />
-                <#if textError??>
-                    <div class="invalid-feedback">
-                        ${trackerNameError}
-                    </div>
-                </#if>
+                <input type="text" name="trackerName" class="form-control" placeholder="Введите название" />
             </div>
             <div class="form-group">
-                <input type="number" name="price" class="form-control" placeholder="Введите цену"/>
+                <input type="text" name="description" class="form-control" placeholder="Описание"/>
             </div>
             <div class="form-group">
                 <div class="custom-file">

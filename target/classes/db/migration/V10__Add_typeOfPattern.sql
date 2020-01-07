@@ -1,0 +1,1 @@
+alter table pattern add column type varchar;

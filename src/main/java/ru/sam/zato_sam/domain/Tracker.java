@@ -3,9 +3,11 @@ package ru.sam.zato_sam.domain;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,11 +16,9 @@ public class Tracker {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Пожалуйста, заполни название")
-    @Length(max = 255, message = "Слишком длинное название")
     private String trackerName;
-    private Integer price;
     private String filename;
+    private String description;
     @NotNull
     @Column(name = "is_public")
     private boolean isPublic;
@@ -35,6 +35,14 @@ public class Tracker {
     private User author;
 
     public Tracker() {
+    }
+
+    public Tracker(String trackerName, String filename, boolean isPublic, User author, String description){
+        this.trackerName = trackerName;
+        this.filename = filename;
+        this.isPublic = isPublic;
+        this.author = author;
+        this.description = description;
     }
 
     public Long getId() {
@@ -75,14 +83,6 @@ public class Tracker {
         this.trackerName = name;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
     public boolean isPublic() {
         return isPublic;
     }
@@ -104,5 +104,26 @@ public class Tracker {
 
     public void setLikes(Set<User> likes) {
         this.likes = likes;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tracker tracker = (Tracker) o;
+        return Objects.equals(id, tracker.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

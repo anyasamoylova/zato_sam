@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
     private boolean active;
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Tracker> trackers;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -110,6 +110,8 @@ public class User implements UserDetails {
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
     }
+
+    public boolean isPainter(){return roles.contains(Role.PAINTER);}
 
 //    public String getPassword2() {
 //        return password2;

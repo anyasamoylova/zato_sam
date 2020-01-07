@@ -1,0 +1,1 @@
+alter table pattern add column pdf_filename varchar (255);

@@ -1,7 +1,8 @@
 package ru.sam.zato_sam.controller;
 
+import jdk.nashorn.internal.runtime.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.sam.zato_sam.domain.Tracker;
 import ru.sam.zato_sam.domain.User;
-import ru.sam.zato_sam.repos.TrackerRepo;
 import ru.sam.zato_sam.service.TrackerService;
 
+import javax.jws.WebParam;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 @Controller
 public class TrackerController {
@@ -38,32 +36,23 @@ public class TrackerController {
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         model.addAttribute("trackers", trackerService.getTrackers(filter));
         model.addAttribute("filter", filter);
-
         return "main";
     }
 
-    @PostMapping("/main")
+    @PostMapping("/user-trackers/{user}")
     public String add(
-            @AuthenticationPrincipal User user,
-            @RequestParam("file")MultipartFile file,
-            @RequestParam Map<String, String> form,
-            @Valid Tracker tracker,
-            BindingResult bindingResult,
+            @AuthenticationPrincipal User currentUser,
+            @RequestParam(name = "trackerName", required = false) String trackerName,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @RequestParam (name = "isPublic", required = false) String str,
+            @RequestParam(name = "description", required = false) String description,
+            @PathVariable User user,
             Model model) throws IOException {
-        trackerService.addTracker(user,file,form,tracker);
-        tracker.setAuthor(user);
 
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorsMap);
-            model.addAttribute("tracker",tracker);
-        }else {
-            trackerService.addTracker(user,file,form,tracker);
-            model.addAttribute("tracker", null);
-        }
-        model.addAttribute("trackers", trackerService.getAllTrackers());
-
-        return "main";
+        trackerService.addTracker(trackerName,currentUser,file,str, description);
+        model.addAttribute("trackers", trackerService.getTrackersByUser(currentUser));
+        model.addAttribute("isCurrentUser", currentUser.equals(user));
+        return "userTrackers";
     }
 
     @GetMapping("/user-trackers/{user}")
@@ -75,26 +64,99 @@ public class TrackerController {
         if(currentUser.equals(user)){
             trackers = user.getTrackers();
         } else
-            trackers = trackerService.getTrackersByUser(user);
+            trackers = trackerService.getTrackersByUserPublic(user);
         model.addAttribute("trackers", trackers);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userTrackers";
     }
 
+//    @GetMapping("/user-trackers")
+//    public String currentUserTrackers(
+//            @AuthenticationPrincipal User user,
+//            Model model
+//    ){
+//        model.addAttribute("trackers", user.getTrackers());
+//        model.addAttribute("isCurrentUser", true);
+//        return "userTrackers";
+//    }
+
     @GetMapping("/like/{tracker}")
     public String likeTracker(
             @AuthenticationPrincipal User user,
-            @PathVariable Tracker tracker){
+            @PathVariable Tracker tracker,
+            Model model){
         trackerService.likeTracker(user, tracker);
-        return "redirect:/main";
+        if(user.getLikedTrackers().contains(tracker)) {
+            model.addAttribute("hasLike","true");
+        }
+            return "redirect:/main";
     }
 
+    @GetMapping("tracker/{tracker}")
+    public String tracker(
+            @AuthenticationPrincipal User user,
+            @PathVariable Tracker tracker,
+            Model model){
+        model.addAttribute("tracker", tracker);
+        model.addAttribute("isPublicTracker", tracker.isPublic());
+        model.addAttribute("isCurrentUser", tracker.getAuthor().equals(user));
+        return "oneTracker";
+    }
+
+    @GetMapping("/edit/{tracker}")
+    public String editTracker(
+            @AuthenticationPrincipal User user,
+            @PathVariable Tracker tracker,
+            Model model
+    ){
+        model.addAttribute("isPublic", tracker.isPublic());
+        model.addAttribute("tracker",tracker);
+        model.addAttribute("isCurrentUser",tracker.getAuthor().equals(user));
+        return "editTracker";
+    }
+
+    @PostMapping("/edit/{tracker}")
+    public String editTracker(
+            @AuthenticationPrincipal User user,
+            @PathVariable Tracker tracker,
+            @RequestParam(name = "trackerName", required = false) String trackerName,
+            @RequestParam(name = "description", required = false) String description,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @RequestParam(name = "isPublic", required = false) String str,
+            Model model
+    ) throws IOException {
+        if (tracker.getAuthor().equals(user)){
+            trackerService.update(tracker, trackerName, description, file, str);
+        }
+        model.addAttribute("tracker",tracker);
+        model.addAttribute("isPublicTracker", tracker.isPublic());
+        model.addAttribute("isCurrentUser", tracker.getAuthor().equals(user));
+        return "redirect:/tracker/" + tracker.getId();
+    }
+
+    @GetMapping("/delete/{tracker}")
+    public String deleteTracker(
+            @AuthenticationPrincipal User user,
+            @PathVariable Tracker tracker,
+            Model model){
+        model.addAttribute("tracker",tracker);
+        model.addAttribute("isCurrentUser", tracker.getAuthor().equals(user));
+        return "deleteTracker";
+    }
+
+    @PostMapping("/delete")
+    public String deleteTracker(
+            @RequestParam(name = "trackerId") Tracker tracker,
+            @AuthenticationPrincipal User user,
+            Model model
+    ){
+        if(user.equals(tracker.getAuthor())) {
+            trackerService.deleteTracker(tracker);
+            model.addAttribute("trackers", user.getTrackers());
+            model.addAttribute("isCurrentUser", true);
+        }
+        return "redirect:/user-trackers/" + user.getId();
+    }
+
+
 }
-
-
-
-
-
-
-
-

@@ -3,13 +3,17 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Логин: </label>
             <div class="col-sm-5">
-                <input type="text" name="username" class="form-control" placeholder="Логин"/>
+                <label>
+                    <input type="text" name="username" class="form-control" placeholder="Логин"/>
+                </label>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Пароль: </label>
             <div class="col-sm-5">
-                <input type="password" name="password" class="form-control" placeholder="Пароль"/>
+                <label>
+                    <input type="password" name="password" class="form-control" placeholder="Пароль"/>
+                </label>
             </div>
         </div>
         <#if isRegisterForm>
@@ -22,13 +26,17 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Имя: </label>
                 <div class="col-sm-5">
-                    <input type="text" name="firstName" class="form-control" placeholder="Имя"/>
+                    <label>
+                        <input type="text" name="firstName" class="form-control" placeholder="Имя">
+                    </label>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Фамилия: </label>
                 <div class="col-sm-5">
-                    <input type="text" name="lastName" class="form-control" placeholder="Фамилия"/>
+                    <label>
+                        <input type="text" name="lastName" class="form-control" placeholder="Фамилия">
+                    </label>
                 </div>
             </div>
         </#if>
@@ -49,6 +57,8 @@
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn btn-primary" type="submit">Sign Out</button>
+        <button class="btn btn-primary" type="submit">
+                Sign Out
+        </button>
     </form>
 </#macro>

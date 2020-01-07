@@ -3,9 +3,7 @@ package ru.sam.zato_sam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import ru.sam.zato_sam.controller.ControllerUtils;
 import ru.sam.zato_sam.domain.Tracker;
 import ru.sam.zato_sam.domain.User;
 import ru.sam.zato_sam.repos.TrackerRepo;
@@ -37,12 +35,12 @@ public class TrackerService {
         return trackers;
     }
 
-    public void addTracker(User user, MultipartFile file, Map<String, String> form, Tracker tracker) throws IOException {
-        tracker.setAuthor(user);
-        if (form.containsKey("Видно всем")) {
-            tracker.setPublic(true);
+    public void addTracker(String trackerName, User user, MultipartFile file, String str, String description) throws IOException {
+        boolean isPublic;
+        if (str.equals("on")) {
+            isPublic = true;
         } else
-            tracker.setPublic(false);
+            isPublic = false;
 
         if (file != null && !file.getOriginalFilename().isEmpty()) { //загружаем контент
             File uploadDir = new File(uploadPath);
@@ -56,13 +54,13 @@ public class TrackerService {
 
             file.transferTo(new File(uploadPath + "/" + resultFileName));
 
-            tracker.setFilename(resultFileName);
+            Tracker tracker = new Tracker(trackerName, resultFileName, isPublic,user,description);
 
             trackerRepo.save(tracker);
         }
     }
 
-    public List<Tracker> getTrackersByUser(User user){return (List<Tracker>) trackerRepo.findByAuthorAndIsPublic(user, true);}
+    public List<Tracker> getTrackersByUserPublic(User user){return trackerRepo.findByAuthorAndIsPublic(user, true);}
 
     public List<Tracker> getAllTrackers(){
         return (List<Tracker>) trackerRepo.findAll();
@@ -75,6 +73,53 @@ public class TrackerService {
         } else
             likedTrackers.add(tracker);
         user.setLikedTrackers(likedTrackers);
+    }
+
+    public void deleteTracker(Tracker tracker){
+        File oldFile = new File (uploadPath + "/" + tracker.getFilename());
+        oldFile.delete();
+        trackerRepo.delete(tracker);
+    }
+
+    public Object getTrackersByUser(User currentUser) {
+        return trackerRepo.findByAuthor(currentUser);
+    }
+
+    public void update(Tracker tracker, String trackerName, String description, MultipartFile file, String str) throws IOException {
+        boolean isPublic;
+        if (str == null){
+            isPublic = false;
+        } else {
+            if (str.equals("on")) {
+                isPublic = true;
+            } else
+                isPublic = false;
+        }
+
+        tracker.setPublic(isPublic);
+
+        if(trackerName != null && !trackerName.isEmpty()){
+            tracker.setTrackerName(trackerName);
+        }
+
+        if(description != null && !description.isEmpty()){
+            tracker.setDescription(description);
+        }
+
+        if (file != null && !file.getOriginalFilename().isEmpty()) { //загружаем контент
+
+            File oldFile = new File (uploadPath + "/" + tracker.getFilename());
+            oldFile.delete();
+
+            String uuidFile = UUID.randomUUID().toString(); //universe uniq id
+            String resultFileName = uuidFile + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+
+            tracker.setFilename(resultFileName);
+        }
+
+        trackerRepo.save(tracker);
     }
 
 }

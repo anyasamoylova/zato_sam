@@ -12,4 +12,5 @@ public interface TrackerRepo extends CrudRepository<Tracker,Long> {
     List<Tracker> findByTrackerNameAndIsPublic(String name, boolean isPublic);
     List<Tracker> findByIsPublic(boolean isPublic);
     List<Tracker> findByAuthorAndIsPublic(User user, boolean isPublic);
+    List<Tracker> findByAuthor(User user);
 }

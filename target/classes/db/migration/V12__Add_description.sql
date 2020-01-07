@@ -1,0 +1,1 @@
+alter table tracker add column description varchar;

@@ -31,15 +31,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration","/static/**").permitAll() //статические ресурсы должны раздаваться без авторизации
-                .anyRequest().authenticated()
+                    .antMatchers("/", "/registration","/static/**","/uploads/","/patternImg/**","/patternPdf/**","/pattern/**").permitAll() //статические ресурсы должны раздаваться без авторизации
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                .and().
+                    rememberMe()
                 .and()
-                .logout()
-                .permitAll();
+                    .logout()
+                    .permitAll();
     }
 
     @Override

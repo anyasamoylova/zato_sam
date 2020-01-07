@@ -17,7 +17,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Изменить фамилию</label>
             <div class="col-sm-5">
-                <input type="text" name="lastName" class="form-control""/>
+                <input type="text" name="lastName" class="form-control"/>
             </div>
         </div>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
