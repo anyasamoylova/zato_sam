@@ -5,10 +5,22 @@
         <div class ="form-group mt-3">
             <form method="post" enctype="multipart/form-data" action="/edit/${tracker.id}">
                 <div class="form-group">
-                    <input type="text" name="trackerName" class="form-control" placeholder="Изменить название" />
+                    <input type="text" name="trackerName" class="form-control ${(trackerNameError??)?string('is-invalid','')}"
+                           placeholder="Изменить название" />
+                    <#if trackerNameError??>
+                        <div class="invalid-feedback">
+                            ${trackerNameError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="description" class="form-control" placeholder="Изменить описание"/>
+                    <input type="text" name="description" class="form-control ${(descriptionError??)?string('is-invalid','')}"
+                           placeholder="Изменить описание"/>
+                    <#if descriptionError??>
+                        <div class="invalid-feedback">
+                            ${descriptionError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">

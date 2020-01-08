@@ -17,8 +17,10 @@ public class Tracker implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Поле не может быть пустым")
     private String trackerName;
     private String filename;
+    @Length(max = 2048, message = "Слишком длинное описание")
     private String description;
     @NotNull
     @Column(name = "is_public")

@@ -1,5 +1,4 @@
-<#include "security.ftl">
-<div class="row row-cols-1 row-cols-md-3 mt-3">
+<div class="card-columns mt-3">
     <#list trackers as tracker>
         <div class="col">
             <div class="card h-100">

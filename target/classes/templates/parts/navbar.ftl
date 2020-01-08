@@ -46,7 +46,7 @@
         <div class="navbar-text mr-3">
             ${name}
         </div>
-        <#if user??>
+        <#if user?? && name != "">
         <@l.logout/>
         <#else>
         <form action="/login" method="post">

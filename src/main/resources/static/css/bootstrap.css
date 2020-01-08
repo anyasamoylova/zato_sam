@@ -4570,6 +4570,7 @@ tbody.collapse.show {
     -webkit-column-gap: 1.25rem;
     -moz-column-gap: 1.25rem;
     column-gap: 1.25rem;
+    display: inline-block;
   }
   .card-columns .card {
     display: inline-block;

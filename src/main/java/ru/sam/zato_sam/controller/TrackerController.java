@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import ru.sam.zato_sam.domain.Tracker;
 import ru.sam.zato_sam.domain.User;
 import ru.sam.zato_sam.service.TrackerService;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +40,27 @@ public class TrackerController {
     @PostMapping("/user-trackers/{user}")
     public String add(
             @AuthenticationPrincipal User currentUser,
-            @RequestParam(name = "trackerName", required = false) String trackerName,
-            @RequestParam(name = "file", required = false) MultipartFile file,
-            @RequestParam (name = "isPublic", required = false) String str,
-            @RequestParam(name = "description", required = false) String description,
             @PathVariable User user,
-            Model model) throws IOException {
-
-        if (user.equals(currentUser)) {
-            trackerService.addTracker(trackerName,currentUser,file,str, description);
+            @Valid Tracker tracker,
+            BindingResult bindingResult,
+            Model model,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @RequestParam (name = "str", required = false) String str) throws IOException {
+        String strReturn = "redirect:/user-trackers/" + currentUser.getId();
+        if (bindingResult.hasErrors()){
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            strReturn = "userTrackers";
+            model.addAttribute("message", "error");
+        }else {
+            if (user.equals(currentUser)) {
+                trackerService.addTracker(tracker, str, file, currentUser);
+            }
+            model.addAttribute("message", null);
         }
         model.addAttribute("trackers", currentUser.getTrackers());
         model.addAttribute("isCurrentUser", currentUser.equals(user));
-        return "userTrackers";
+        return strReturn;
     }
 
     @GetMapping("/user-trackers/{user}")

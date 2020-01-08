@@ -36,7 +36,7 @@ public class TrackerService {
         return trackers;
     }
 
-    public void addTracker(String trackerName, User user, MultipartFile file, String str, String description) throws IOException {
+    public void addTracker(Tracker tracker, String str, MultipartFile file, User user) throws IOException {
         boolean isPublic;
         if (str == null){
             isPublic = false;
@@ -47,6 +47,8 @@ public class TrackerService {
                 isPublic = false;
         }
 
+        tracker.setPublic(isPublic);
+        tracker.setAuthor(user);
         if (file != null && !file.getOriginalFilename().isEmpty()) { //загружаем контент
             File uploadDir = new File(uploadPath);
 
@@ -59,7 +61,7 @@ public class TrackerService {
 
             file.transferTo(new File(uploadPath + "/" + resultFileName));
 
-            Tracker tracker = new Tracker(trackerName, resultFileName, isPublic,user,description);
+            tracker.setFilename(resultFileName);
 
             trackerRepo.save(tracker);
         }

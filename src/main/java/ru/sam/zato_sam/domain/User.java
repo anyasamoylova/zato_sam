@@ -1,10 +1,14 @@
 package ru.sam.zato_sam.domain;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -14,13 +18,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @NotBlank(message = "Введите логин")
+    @Length(min = 2, max = 20, message = "Имя должно состоять из 2-20 символов")
     private String username;
-//    @NotBlank(message = "Введите пароль")
+
+    @Length(min = 6, max = 20, message = "Пароль должен состояить из 6-20 символов")
     private String password;
-//    @NotBlank(message = " ")
-//    @Transient //не нужно созранять и получать поле из БД
-//    private String password2;
 
     @Column(name = "first_name")
     private String firstName;
