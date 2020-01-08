@@ -71,10 +71,11 @@ public class UserController {
     @PostMapping("/profile")
     public String updateProfile(
             @AuthenticationPrincipal User user,
-            @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName){
-        userService.updateProfile(user, password, firstName, lastName);
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false) String wantBeAPainter){
+        userService.updateProfile(user, password, firstName, lastName, wantBeAPainter);
         return "redirect:/user/profile";
     }
 

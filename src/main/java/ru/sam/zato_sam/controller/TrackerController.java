@@ -1,6 +1,7 @@
 package ru.sam.zato_sam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,7 +74,7 @@ public class TrackerController {
             @PathVariable Tracker tracker,
             Model model){
         model.addAttribute("tracker", tracker);
-        model.addAttribute("isPublicTracker", tracker.isPublic());
+        model.addAttribute("isPublic", tracker.isPublic());
         model.addAttribute("isCurrentUser", tracker.getAuthor().equals(user));
         return "oneTracker";
     }
@@ -90,8 +91,9 @@ public class TrackerController {
         return "editTracker";
     }
 
+
     @PostMapping("/edit/{tracker}")
-    public String editTracker(
+    public String editTracker1(
             @AuthenticationPrincipal User user,
             @PathVariable Tracker tracker,
             @RequestParam(name = "trackerName", required = false) String trackerName,
@@ -104,7 +106,7 @@ public class TrackerController {
             trackerService.update(tracker, trackerName, description, file, str);
         }
         model.addAttribute("tracker",tracker);
-        model.addAttribute("isPublicTracker", tracker.isPublic());
+        model.addAttribute("isPublic", tracker.isPublic());
         model.addAttribute("isCurrentUser", tracker.getAuthor().equals(user));
         return "redirect:/tracker/" + tracker.getId();
     }
@@ -120,7 +122,7 @@ public class TrackerController {
     }
 
     @PostMapping("/delete")
-    public String deleteTracker(
+    public String deleteTracker1(
             @RequestParam(name = "trackerId") Tracker tracker,
             @AuthenticationPrincipal User user,
             Model model

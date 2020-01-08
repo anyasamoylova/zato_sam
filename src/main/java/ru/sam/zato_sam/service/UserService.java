@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void updateProfile(User user, String password, String firstName, String lastName){
+    public void updateProfile(User user, String password, String firstName, String lastName, String wantBeAPainter){
         if(!StringUtils.isEmpty(password)){
             user.setPassword(passwordEncoder.encode(password));
         }
@@ -74,6 +74,9 @@ public class UserService implements UserDetailsService {
         }
         if(!StringUtils.isEmpty(lastName)){
             user.setLastName(lastName);
+        }
+        if(!StringUtils.isEmpty(wantBeAPainter)){
+            user.getRoles().add(Role.valueOf("PAINTER"));
         }
         userRepo.save(user);
     }

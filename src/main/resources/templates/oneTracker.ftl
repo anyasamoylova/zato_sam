@@ -1,6 +1,6 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
-    <#if isPublicTracker>
+    <#if isPublic || isCurrentUser>
         <div class="card" style="width: 40rem;">
             <img src="/img/${tracker.filename}" class="card-img-top">
             <div class="card-body">

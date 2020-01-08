@@ -1,3 +1,4 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
 <@c.page>
     <h5>${username}</h5>
@@ -20,7 +21,18 @@
                 <input type="text" name="lastName" class="form-control"/>
             </div>
         </div>
+
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn btn-warning" type="submit">Сохранить</button>
+        <#if !isPainter>
+            <label class="btn btn-secondary">
+                <input type="radio" name="wantBeAPainter" value="yes" id="111" autocomplete="off">
+                Стать художником
+            </label>
+        </#if>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                <button class="btn btn-primary" type="submit">Сохранить</button>
+            </label>
+        </div>
     </form>
 </@c.page>

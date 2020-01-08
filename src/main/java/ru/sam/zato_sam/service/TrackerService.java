@@ -2,6 +2,7 @@ package ru.sam.zato_sam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.sam.zato_sam.domain.Tracker;
@@ -66,6 +67,7 @@ public class TrackerService {
 
     public List<Tracker> getTrackersByUserPublic(User user){return trackerRepo.findByAuthorAndIsPublic(user, true);}
 
+    @PreAuthorize("hasAuthority('PAINTER')")
     public void deleteTracker(Tracker tracker){
         File oldFile = new File (uploadPath + "/" + tracker.getFilename());
         oldFile.delete();
@@ -76,6 +78,7 @@ public class TrackerService {
         return trackerRepo.findByAuthor(currentUser);
     }
 
+    @PreAuthorize("hasAuthority('PAINTER')")
     public void update(Tracker tracker, String trackerName, String description, MultipartFile file, String str) throws IOException {
         boolean isPublic;
         if (str == null){
