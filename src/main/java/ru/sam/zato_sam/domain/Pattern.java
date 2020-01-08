@@ -12,8 +12,6 @@ public class Pattern {
     private String description;
     @Column(name="img_filename")
     private String imgFilename;
-    @Column(name="html_filename")
-    private String htmlFilename;
     @Column(name = "pdf_filename")
     private String pdfFilename;
     private String type;
@@ -46,14 +44,6 @@ public class Pattern {
         this.imgFilename = imgFilename;
     }
 
-    public String getHtmlFilename() {
-        return htmlFilename;
-    }
-
-    public void setHtmlFilename(String htmlFilename) {
-        this.htmlFilename = htmlFilename;
-    }
-
     public String getName() {
         return name;
     }
@@ -68,5 +58,13 @@ public class Pattern {
 
     public void setPdfFilename(String pdfFilename) {
         this.pdfFilename = pdfFilename;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

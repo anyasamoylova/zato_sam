@@ -13,10 +13,11 @@ import ru.sam.zato_sam.domain.Pattern;
 import ru.sam.zato_sam.repos.PatternRepo;
 import ru.sam.zato_sam.service.PatternService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PatternController {
@@ -40,6 +41,14 @@ public class PatternController {
     public String pattern(
             @PathVariable Pattern pattern,
             Model model){
+        if(pattern.getType().equals("list")){
+            List<String> deals = new ArrayList<>();
+            for(int i = 0; i<25; i++ ){
+                deals.add("deal" + i);
+            }
+            model.addAttribute("deals", deals);
+        }
+        model.addAttribute("type", pattern.getType());
         model.addAttribute("patternName", pattern.getName());
         return "onePattern";
     }
@@ -51,27 +60,26 @@ public class PatternController {
             @RequestParam(name = "icons", required = false) Integer icons,
             @RequestParam(name = "color", required = false) String color,
             @RequestParam(name = "icon", required = false) String icon,
+            @RequestParam Map<String,String> form,
             @PathVariable("pattern") Pattern pattern,
             Model model) throws IOException {
 
         model.addAttribute("name",name);
         model.addAttribute("author", author);
-        model.addAttribute("icons", icons);
         model.addAttribute("pattern", pattern);
 
         if (icons == null){
             icons = 1;
         }
 
-
-        String html = patternService.getHtmlPattern(name,author,icons,color,icon);
+        String html = patternService.getHtmlPattern(name,author,icons,color,icon,pattern,form);
 
         String pdfName = pattern.getPdfFilename();
 
         String dest = String.format("%s" + pdfName,target);
         HtmlConverter.convertToPdf(html,new FileOutputStream(dest));
 
-        return "resolutions";
+        return "getPattern";
     }
 
 }
