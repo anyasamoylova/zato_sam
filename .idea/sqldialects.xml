@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V10__Add_typeOfPattern.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V11__Delete_price.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V12__Add_description.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V13__Delete_likes.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V14__Delete_html.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V1__Init_DB.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_admin.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V3__Encode_password.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V4__Add_user_name.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V5__Add_connect_tracker_user.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V6__Add_public_trackers.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V7__Add_likes.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V8__Add_patterns.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V9__Add_pdfFilename.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V10__Add_typeOfPattern.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V11__Delete_price.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V12__Add_description.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V13__Delete_likes.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V14__Delete_html.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V1__Init_DB.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_admin.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V3__Encode_password.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V4__Add_user_name.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V5__Add_connect_tracker_user.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V6__Add_public_trackers.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V7__Add_likes.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V8__Add_patterns.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V9__Add_pdfFilename.sql" dialect="PostgreSQL" />
   </component>
 </project>
