@@ -17,8 +17,6 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
