@@ -3,7 +3,7 @@
         <div class="col">
             <div class="card h-100">
                 <#if tracker.filename??>
-                    <img src="/img/${tracker.filename}" class="card-img-top">
+                    <img src="../../uploads/${tracker.filename}" class="card-img-top">
                 </#if>
                 <div class="card-body">
                     <a href="/tracker/${tracker.id}">

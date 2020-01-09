@@ -21,7 +21,7 @@ public class TrackerService {
     @Autowired
     private TrackerRepo trackerRepo;
 
-    @Value("${upload.path}")
+    @Value("src/main/resources/uploads/")
     private String uploadPath;
 
 

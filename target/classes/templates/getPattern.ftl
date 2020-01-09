@@ -10,8 +10,8 @@
             </#if>
             <h3>Качай скорее!!!</h3>
             <div class="mt-9">
-                <a href="/patternPdf/${pattern.pdfFilename}" class="btn btn-primary active" role="button" download="">Скачать</a>
-                <a href="/patternPdf/${pattern.pdfFilename}" class="btn btn-secondary active" role="button" >Открыть</a>
+                <a href="../uploads/pattern/pdf/${pattern.pdfFilename}" class="btn btn-primary active" role="button" download="">Скачать</a>
+                <a href="../uploads/pattern/pdf/${pattern.pdfFilename}" class="btn btn-secondary active" role="button" >Открыть</a>
             </div>
         </div>
         <div class="col-sm">

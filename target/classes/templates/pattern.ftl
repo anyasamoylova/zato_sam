@@ -6,7 +6,7 @@
                 <a href="/pattern/${pattern.id}">
                     <div class="card h-100">
                         <#if pattern.imgFilename??>
-                            <img src="/patternImg/${pattern.imgFilename}" class="card-img-top">
+                            <img src="../uploads/pattern/img/${pattern.imgFilename}" class="card-img-top">
                         </#if>
                         <div class="card-body">
                             <#--                <a href="/pattern/${pattern.id}">-->

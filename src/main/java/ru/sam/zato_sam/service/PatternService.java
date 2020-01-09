@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.sam.zato_sam.domain.Pattern;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Map;
 
 @Service

@@ -8,8 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Value("${upload.path}")
-    private String uploadPath;
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
@@ -18,12 +16,10 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**") //все запросы img направляем
-                .addResourceLocations("file://" + uploadPath + "/"); //вот сюда
+                .addResourceLocations("classpath:/resources"); //вот сюда
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/"); //ресурсы будут искаться в дереве проекта
-        registry.addResourceHandler("/patternImg/**")
-                .addResourceLocations("file://" + uploadPath + "/pattern/img/");
-        registry.addResourceHandler("/patternPdf/**")
-                .addResourceLocations("file://" + uploadPath + "/pattern/pdf/");
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("classpath:/uploads/"); //ресурсы будут искаться в дереве проекта
     }
 }

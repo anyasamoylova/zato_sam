@@ -2,7 +2,7 @@
 <@c.page>
     <#if isPublic || isCurrentUser>
         <div class="card" style="width: 40rem;">
-            <img src="/img/${tracker.filename}" class="card-img-top">
+            <img src="../uploads/${tracker.filename}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${tracker.trackerName}</h5>
                 <p class="card-text">${tracker.description}</p>

@@ -27,7 +27,7 @@ public class PatternController {
     @Autowired
     PatternRepo patternRepo;
 
-    @Value("src/uploads/pattern/pdf/")
+    @Value("src/src/main/resources/uploads/pattern/pdf/")
     private String target;
 
     @GetMapping("/pattern")
