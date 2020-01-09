@@ -29,20 +29,20 @@
             </div>
         </div>
         <#if isRegisterForm>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Повторите пароль: </label>
-                <div class="col-sm-5">
-                    <label>
-                    <input type="password" name="password2" class="form-control ${(password2Error??)?string('is-invalid','')}"
-                           placeholder="Повторите пароль"/>
-                    <#if password2Error??>
-                        <div class="invalid-feedback">
-                            ${password2Error}
-                        </div>
-                    </#if>
-                    </label>
-                </div>
-            </div>
+<#--            <div class="form-group row">-->
+<#--                <label class="col-sm-2 col-form-label">Повторите пароль: </label>-->
+<#--                <div class="col-sm-5">-->
+<#--                    <label>-->
+<#--                    <input type="password" name="password2" class="form-control ${(password2Error??)?string('is-invalid','')}"-->
+<#--                           placeholder="Повторите пароль"/>-->
+<#--                    <#if password2Error??>-->
+<#--                        <div class="invalid-feedback">-->
+<#--                            ${password2Error}-->
+<#--                        </div>-->
+<#--                    </#if>-->
+<#--                    </label>-->
+<#--                </div>-->
+<#--            </div>-->
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Имя: </label>
                 <div class="col-sm-5">

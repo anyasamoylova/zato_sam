@@ -1,5 +1,3 @@
-create sequence hibernate_sequence start 1 increment 1;
-
 create table tracker(
     id int8 not null,
     filename varchar(255),

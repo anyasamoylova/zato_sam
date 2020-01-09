@@ -21,7 +21,7 @@ public class User implements UserDetails {
     @Length(min = 2, max = 20, message = "Имя должно состоять из 2-20 символов")
     private String username;
 
-    @Length(min = 6, max = 20, message = "Пароль должен состояить из 6-20 символов")
+    //@Size(min = 6, max = 20, message = "Пароль должен состояить из 6-20 символов")
     private String password;
 
     @Column(name = "first_name")

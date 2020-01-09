@@ -1,6 +1,7 @@
 package ru.sam.zato_sam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,9 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/registration")
@@ -27,18 +31,20 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@Valid User user,
                           BindingResult bindingResult,
-                          Model model,
-                          @RequestParam(name = "password2") String password2) {
-        if (StringUtils.isEmpty(password2)){
-            model.addAttribute("password2Error", "Пароли не совпадают");
-        }else if(!password2.equals(user.getPassword())){
-            model.addAttribute("password2Error", "Пароли не совпадают");
-        }
+                          Model model
+//                          @RequestParam(name = "password2") String password2
+    ) {
+//        if (StringUtils.isEmpty(password2)){
+//            model.addAttribute("password2Error", "Пароли не совпадают");
+//        }else if(!password2.equals(user.getPassword())){
+//            model.addAttribute("password2Error", "Пароли не совпадают");
+//        }
         if (bindingResult.hasErrors()){
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
         } else {
+//            password2 = passwordEncoder.encode(password2)
             if (!userService.addUser(user)) {
                 model.addAttribute("message", "User exists!");
                 return "registration";

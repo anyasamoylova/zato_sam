@@ -1,0 +1,1 @@
+alter table pattern drop column html_filename;
