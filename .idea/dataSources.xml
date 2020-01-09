@@ -12,6 +12,11 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://ec2-54-75-235-28.eu-west-1.compute.amazonaws.com:5432/d26s2qaqs6ohfr</jdbc-url>
+      <driver-properties>
+        <property name="ssl" value="true" />
+        <property name="sslmode" value="require" />
+        <property name="sslfactory" value="org.postgresql.ssl.NonValidatingFactory" />
+      </driver-properties>
     </data-source>
   </component>
 </project>
