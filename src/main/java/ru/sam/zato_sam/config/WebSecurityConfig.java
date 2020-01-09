@@ -3,6 +3,7 @@ package ru.sam.zato_sam.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +20,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Bean
+    @Scope("singleton")
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder(8);
     }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
