@@ -6,8 +6,13 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.validation.Valid;
+
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
@@ -21,5 +26,9 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/"); //ресурсы будут искаться в дереве проекта
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("classpath:/uploads/"); //ресурсы будут искаться в дереве проекта
+        registry.addResourceHandler("/patternImg/**")
+                .addResourceLocations("file://" + uploadPath + "/pattern/img/");
+        registry.addResourceHandler("/patternPdf/**")
+                .addResourceLocations("file://" + uploadPath + "/pattern/pdf/");
     }
 }
